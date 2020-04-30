@@ -1,17 +1,16 @@
-# Parking Space Detection
-[Medium Article](https://medium.com/the-research-nest/parking-space-detection-using-deep-learning-9fc99a63875e)
+# todo_sliver
 
-## How to use
+A new Flutter project.
 
+## Getting Started
 
-* IPython Notebook:
+This project is a starting point for a Flutter application.
 
-``` Download the notebook and upload it on google colab. Rest of the instructions are in the notebook. ```
+A few resources to get you started if this is your first Flutter project:
 
-* detector.py:
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-``` python detector.py PATH_OF_VIDEO_FILE PATH_OF_PARKING_REGIONS_FILE ```
-
-* set_regions.py:
-
-``` python set_regions.py PATH_OF_VIDEO_FILE NAME_OF_OUTPUT_FILE(optional)```
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
