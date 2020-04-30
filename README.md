@@ -15,3 +15,5 @@
 * set_regions.py:
 
 ``` python set_regions.py PATH_OF_VIDEO_FILE NAME_OF_OUTPUT_FILE(optional)```
+
+regions.p is a matlab file of arrays that contained set regions of parking spots. 
