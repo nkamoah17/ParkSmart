@@ -29,7 +29,6 @@ class SelectFromCollection(object):
         global points
         points = verts
         self.canvas.draw_idle()
-
     def disconnect(self):
         self.poly.disconnect_events()
         self.canvas.draw_idle()

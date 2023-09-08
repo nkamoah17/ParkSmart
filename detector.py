@@ -19,28 +19,43 @@ from shapely.geometry import Polygon as shapely_poly
 import io
 import base64
 
-
+# This class is a configuration for the Mask R-CNN model.
+# It sets the name of the configuration, the number of images per GPU, the number of GPUs, and the number of classes.
+# The number of classes is set to 81 to include the 80 COCO classes plus the background class.
 class Config(Mask_RCNN.mrcnn.config.Config):
     NAME = "model_config"
     IMAGES_PER_GPU = 1
     GPU_COUNT = 1
     NUM_CLASSES = 81
 
+# Create an instance of the Config class and display its properties.
+# This is useful for debugging and ensuring that the configuration has been set up correctly.
 config = Config()
 config.display()
 
+# Set the root directory, model directory, and path to the COCO model weights.
+# These paths are used to load the model and its weights.
 ROOT_DIR = os.getcwd()
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 
+# Print the path to the COCO model weights and download the weights if they do not already exist.
+# This ensures that the model has the necessary weights to make predictions.
 print(COCO_MODEL_PATH)
 if not os.path.exists(COCO_MODEL_PATH):
     Mask_RCNN.mrcnn.utils.download_trained_weights(COCO_MODEL_PATH)
 
+# Create an instance of the Mask R-CNN model in inference mode with the specified configuration and load the weights.
+# This model will be used to make predictions on new images.
 model = MaskRCNN(mode="inference", model_dir=MODEL_DIR, config=Config())
 model.load_weights(COCO_MODEL_PATH, by_name=True)
-
 def get_cars(boxes, class_ids):
+    """
+    This function takes in bounding boxes and class IDs as input.
+    It iterates over the boxes and checks if the class ID for each box is in the list [3, 8, 6].
+    If the condition is met, the box is appended to the 'cars' list.
+    The function returns the 'cars' list as a numpy array.
+    """
     cars = []
     for i, box in enumerate(boxes):
         if class_ids[i] in [3, 8, 6]:
@@ -48,6 +63,15 @@ def get_cars(boxes, class_ids):
     return np.array(cars)
 
 def compute_overlaps(parked_car_boxes, car_boxes):
+    """
+    This function calculates the overlap between parked car boxes and other car boxes.
+    It iterates over the car boxes and creates a new list of boxes with coordinates for each corner of the box.
+    It then initializes an array of zeros with dimensions corresponding to the number of parked car boxes and new car boxes.
+    For each parked car box, it calculates the Intersection over Union (IoU) with each new car box.
+    The IoU is calculated as the area of intersection of the two boxes divided by the area of their union.
+    The IoU for each pair of boxes is stored in the 'overlaps' array.
+    The function returns the 'overlaps' array.
+    """
     new_car_boxes = []
     for box in car_boxes:
         y1 = box[0]
@@ -74,8 +98,6 @@ def compute_overlaps(parked_car_boxes, car_boxes):
             IOU = polygon_intersection / polygon_union
             overlaps[i][j] = IOU
     return overlaps
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('video_path', help="Video file")
